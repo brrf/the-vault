@@ -20,7 +20,7 @@ export default class Body extends Component {
     return (
         <View style={styles.mainContent}>
           <Text style={styles.currentWatch}>
-            {this.state.currentWatch ? 'Watch#1' : 'No watch selected'}
+            {this.state.currentWatch ? 'Watch#1' : this.props.text}
           </Text>
         </View>
     );
