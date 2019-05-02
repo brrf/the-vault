@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
   textInput: {
   	height: 40,
   	fontSize: 20,
-  	borderColor: 'grey',
+  	marginBottom: 5,
   	borderBottomWidth: 1,
-  	marginBottom: 5
+  	borderColor: 'grey'
   }
 });
 

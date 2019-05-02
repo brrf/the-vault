@@ -11,6 +11,11 @@ export default class Home extends Component {
       currentWatch: null
     }
   }
+
+  componentDidMount() {
+    alert('this should work')
+  }
+  
   render() {
     return (
       <View style={styles.container}>

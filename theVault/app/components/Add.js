@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, ScrollView, TextInput, TouchableOpacity, Keyboard, DatePickerIOS, Button, ImagePickerIOS} from 'react-native';
 import { loadSettings, saveSettings } from '../storage/settingsStorage';
 import TextInputTemplate from './TextInputTemplate';
+import PurchaseDate from './PurchaseDate';
+import TakePhoto from './TakePhoto';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Add extends Component {
 
@@ -11,24 +14,14 @@ export default class Add extends Component {
 		this.state = {
 			brand: '',
 			model: '',
-			price: '',
-			purchaseDate: new Date(),
-			showDatePicker: true
+			price: ''
 		}
+
 		this.handleBrandChange = this.handleBrandChange.bind(this);
 		this.handleModelChange = this.handleModelChange.bind(this);
 		this.handlePriceChange = this.handlePriceChange.bind(this);
-		this.setPurchaseDate = this.setPurchaseDate.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleReset = this.handleReset.bind(this);
-		this.toggleDatePicker = this.toggleDatePicker.bind(this);
 	}
-
-	// async componentDidMount() {
-	//   const initialState = await loadSettings();
-
-	//   this.setState(initialState);
-	// }
 
 	handleBrandChange(brand) {
 		this.setState({
@@ -48,38 +41,30 @@ export default class Add extends Component {
 		})
 	}
 
-	setPurchaseDate(date) {
-		this.setState({
-			purchaseDate: date
-		})
-		console.log({date: date})
+	handleSubmit () {
+		let submission = ({
+			name: 'Moshe',
+			occupation: 'radiologist'
+		});
+		AsyncStorage.setItem('object', JSON.stringify(submission));
+
+		alert(JSON.stringify(submission));
 	}
 
-	handleSubmit() {
-		// saveSettings(this.state)
-		return
-	}
+	getData = async () => {
+		try {
+			let data = await AsyncStorage.getItem('object');
+			let parse = JSON.parse(data);
 
-	handleReset() {
-		this.setState({
-			brand: ''
-		})
-	}
+			alert(parse.name)
+		}
 
-	toggleDatePicker () {
-		this.setState({
-			showDatePicker: !this.state.showDatePicker
-		})
+		catch(error) {
+			alert(error)
+		}
 	}
 
 	render() {
-
-		const datePicker = this.state.showDatePicker
-			? <DatePickerIOS 
-		          	date={this.state.purchaseDate}
-          			onDateChange={this.setPurchaseDate}
-          			mode='date'/>
-          	: <View /> 
 	    return (
 	    	<ScrollView>
 		        <View style={styles.inputContainer}>
@@ -95,15 +80,8 @@ export default class Add extends Component {
 		          	text="Price Paid"
 		          	propsFunction={this.handlePriceChange}
 		          />
-		          <View>
-			          <TouchableOpacity
-			          	onPress={this.toggleDatePicker}
-			          	>
-			          		<Text style={styles.textField}>{this.state.purchaseDate.toString()}</Text>
-			          </TouchableOpacity>
-			          {datePicker}
-			       </View>
-
+		          <PurchaseDate />
+		          <TakePhoto />
 		          <TouchableOpacity
 		          	style={styles.saveButton}
 		          	onPress={this.handleSubmit}>
@@ -112,7 +90,10 @@ export default class Add extends Component {
 		          		Submit
 		          	</Text>
 		          </TouchableOpacity>
-		        </View>
+		          <Button
+		          	title='Click to alert'
+		          	onPress={this.getData} />
+		        </View>		        
 	        </ScrollView>
 	    );
  	}
@@ -133,7 +114,8 @@ const styles = StyleSheet.create({
   	fontSize: 20,
   	borderColor: 'grey',
   	borderBottomWidth: 1,
-  	color: 'grey'
+  	marginBottom: 5,
+  	color: '#D3D3D3'
   },
   saveButton: {
   	height: 40,
