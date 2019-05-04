@@ -14,12 +14,13 @@ export default class Add extends Component {
 		this.state = {
 			brand: '',
 			model: '',
-			price: ''
+			price: '',
 		}
 
 		this.handleBrandChange = this.handleBrandChange.bind(this);
 		this.handleModelChange = this.handleModelChange.bind(this);
 		this.handlePriceChange = this.handlePriceChange.bind(this);
+		this.handlePhoto = this.handlePhoto.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
@@ -41,28 +42,29 @@ export default class Add extends Component {
 		})
 	}
 
+	handlePhoto(photo) {
+		this.setState({
+			photo
+		})
+	}
+
 	handleSubmit () {
 		let submission = ({
-			name: 'Moshe',
-			occupation: 'radiologist'
+			brand: this.state.brand
 		});
 		AsyncStorage.setItem('object', JSON.stringify(submission));
-
-		alert(JSON.stringify(submission));
+		this.props.navigation.navigate('Collection')
 	}
 
-	getData = async () => {
-		try {
-			let data = await AsyncStorage.getItem('object');
-			let parse = JSON.parse(data);
+	clearData = async () => {
+  try {
+    await AsyncStorage.clear()
+  } catch(e) {
+    // clear error
+  }
 
-			alert(parse.name)
-		}
-
-		catch(error) {
-			alert(error)
-		}
-	}
+  console.log('Done.')
+}
 
 	render() {
 	    return (
@@ -81,7 +83,8 @@ export default class Add extends Component {
 		          	propsFunction={this.handlePriceChange}
 		          />
 		          <PurchaseDate />
-		          <TakePhoto />
+		          <TakePhoto 
+		          	uploadPhoto={this.handlePhoto}/>
 		          <TouchableOpacity
 		          	style={styles.saveButton}
 		          	onPress={this.handleSubmit}>
@@ -93,6 +96,9 @@ export default class Add extends Component {
 		          <Button
 		          	title='Click to alert'
 		          	onPress={this.getData} />
+		          <Button
+		          	title = 'Clear all data'
+		          	onPress={this.clearData} />
 		        </View>		        
 	        </ScrollView>
 	    );

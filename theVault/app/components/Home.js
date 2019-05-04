@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Button} from 'react-native';
+import {View, StyleSheet, Button, Image} from 'react-native';
 import Header from './Header';
 import Body from './Body';
 
@@ -12,10 +12,6 @@ export default class Home extends Component {
     }
   }
 
-  componentDidMount() {
-    alert('this should work')
-  }
-  
   render() {
     return (
       <View style={styles.container}>

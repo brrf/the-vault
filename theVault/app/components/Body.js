@@ -1,20 +1,38 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet, View, Text, Button, Image} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Body extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentWatch: null
+      currentWatch: null,
+      brands: []
     }
-    //this.setCurrentWatch = this.setCurrentWatch.bind(this);
+   
   }
 
-  // setDate(newDate) {
-  //   this.setState({chosenDate: newDate});
-  // }
+  componentDidMount() {
+    this.getData()
+  }
+
+  getData = async () => {
+    try {
+      let data = await AsyncStorage.getItem('object');
+      let parse = JSON.parse(data);
+
+      this.setState({
+        brands: [...this.state.brands, parse.brand]
+      })
+    }
+
+    catch(error) {
+      alert(error)
+    }
+  }
+
 
   render() {
     return (
@@ -22,6 +40,7 @@ export default class Body extends Component {
           <Text style={styles.currentWatch}>
             {this.state.currentWatch ? 'Watch#1' : this.props.text}
           </Text>
+          <Text>{this.state.brands[0]}</Text>
         </View>
     );
   }

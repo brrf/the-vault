@@ -4,7 +4,7 @@ import {StyleSheet, View, Text, Button} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 import Home from './app/components/Home';
 import Add from './app/components/Add';
-import Settings from './app/components/Settings';
+import Collection from './app/components/Collection';
 
 
 export default class App extends Component {
@@ -20,7 +20,7 @@ const AppTabNavigator = createBottomTabNavigator(
   {
     Home: Home,
     Add: Add,
-    Settings: Settings
+    Collection: Collection
   },
   {
     initialRouteName: 'Add',

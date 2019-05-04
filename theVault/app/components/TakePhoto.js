@@ -4,13 +4,28 @@ import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 
 export default class TakePhoto extends Component {
+	constructor(props) {
+		super(props);
 
-  choosePhoto = () => {
-    console.log('here')
+		this.choosePhoto = this.choosePhoto.bind(this);
+	}
+
+  choosePhoto() {
     const options = {}
     ImagePicker.showImagePicker(options, response => {
-      console.log("response", response)
-    })
+      if (response.didCancel) {
+	    console.log('User cancelled image picker');
+	  } else if (response.error) {
+	    console.log('ImagePicker Error: ', response.error);
+	  } else if (response.customButton) {
+	    console.log('User tapped custom button: ', response.customButton);
+	  } else {
+	    const source = response.uri;
+	    this.props.uploadPhoto(source)
+	    }
+
+      
+  	})
   }
 
   render() {
