@@ -27,7 +27,8 @@ class Add extends Component {
 	uploadPhoto () {
 		this.props.dispatch({
 			type: 'SUBMIT_WATCH',
-			photo: this.state.photo
+			photo: this.state.photo,
+			navigate: () => this.props.navigation.navigate('Collection')
 		})
 	}
 
@@ -65,7 +66,6 @@ class Add extends Component {
 
 	handleSubmit () {
 		return (
-
 				dispatch({
 				type: 'SUBMIT_WATCH',
 				photo

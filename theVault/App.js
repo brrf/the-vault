@@ -5,6 +5,7 @@ import {createBottomTabNavigator, createStackNavigator, createAppContainer} from
 import Home from './app/components/Home';
 import Add from './app/components/Add';
 import Collection from './app/components/Collection';
+import Item from './app/components/Item'
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 
@@ -22,7 +23,8 @@ const initialState = []
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'SUBMIT_WATCH':      
+    case 'SUBMIT_WATCH':     
+      action.navigate();
       return state.concat(action.photo);
     case 'CLEAR_DATA':
       return [];
@@ -44,11 +46,21 @@ export default class App extends Component {
   }
 }
 
+const CollectionStack = createStackNavigator(
+  {
+    CollectionPanel: Collection,
+    CollectionItem: Item
+  },
+  {
+    headerMode: 'none'
+  }
+);
+
 const AppTabNavigator = createBottomTabNavigator(
   {
     Home: Home,
     Add: Add,
-    Collection: Collection
+    Collection: CollectionStack
   },
   {
     initialRouteName: 'Add',

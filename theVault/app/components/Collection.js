@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Button, Image, FlatList, Dimensions} from 'react-native';
+import {StyleSheet, View, Text, Button, Image, FlatList, Dimensions, TouchableOpacity} from 'react-native';
 import Body from './Body'
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
@@ -67,6 +67,7 @@ let data = [
 ]
 
 class Collection extends Component {
+
 	constructor(props) {
 		super(props);
 
@@ -119,13 +120,14 @@ class Collection extends Component {
 	        	<FlatList
 	        		data={data}
 	        		renderItem={({item}) => (
-	        			<View>
+	        			<TouchableOpacity
+	        				onPress={() => this.props.navigation.navigate('CollectionItem')}>
 		        			<Image
 		        				style={styles.watchImage}
 		        				source={{uri: item.picture}}
 		        			/>
 		        			<Text style={styles.watchText}>{item.title}</Text>
-		        		</View>
+		        		</TouchableOpacity>
 	        		)} 
 	        		numColumns={numColumns}/>
 	        	<Button
