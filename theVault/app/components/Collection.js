@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Button, Image, FlatList} from 'react-native';
+import {StyleSheet, View, Text, Button, Image, FlatList, Dimensions} from 'react-native';
 import Body from './Body'
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
@@ -44,6 +44,27 @@ import {connect} from 'react-redux';
 // 		currentWatch: false
 // 	}
 // ]
+
+const numColumns = 3;
+
+let data = [
+	{
+		picture: 'https://media.istockphoto.com/photos/luxury-watch-picture-id697173746?k=6&m=697173746&s=612x612&w=0&h=iKgd8mqeOZhjDCuDeygQNc4vrWl4GkvG1naI567YJTE=',
+		title: 'Rolex - day-date',
+		key: 1
+	},
+	{
+		picture: 'http://cdn.shopify.com/s/files/1/0377/2037/products/Womens03.Front_ROSE_GOLD_ADD_grande.jpg?v=1510687973',
+		title: 'Omega - peachy',
+		key: 2
+	},
+	{
+		picture: 'https://cdn.shopify.com/s/files/1/0627/5517/products/Chrono-S-Blue_Brown_2048x2048.jpg?v=1542911430',
+		title: 'Vincero - absolut',
+		key: 3
+	}
+
+]
 
 class Collection extends Component {
 	constructor(props) {
@@ -96,13 +117,17 @@ class Collection extends Component {
 	    return (
 	        <View style={styles.mainContent}>
 	        	<FlatList
-	        		data={this.props.photos}
+	        		data={data}
 	        		renderItem={({item}) => (
-	        			<Image
-	        				style={styles.watchImage}
-	        				source={{uri: item}}
-	        			/>
-	        		)} />
+	        			<View>
+		        			<Image
+		        				style={styles.watchImage}
+		        				source={{uri: item.picture}}
+		        			/>
+		        			<Text style={styles.watchText}>{item.title}</Text>
+		        		</View>
+	        		)} 
+	        		numColumns={numColumns}/>
 	        	<Button
 	        		title='display state'
 	        		onPress={this.displayData} />
@@ -125,7 +150,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   watchImage: {
-  	width: 200,
-  	height: 200
+  	width: Dimensions.get('window').width / numColumns,
+  	height: Dimensions.get('window').width / numColumns
+  },
+  watchText: {
+  	backgroundColor: '#f4511e',
+  	color: 'white'
   }
 });

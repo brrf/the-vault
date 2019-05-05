@@ -22,9 +22,10 @@ const initialState = []
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'SUBMIT_WATCH': 
-      console.log('submitted photo to reducer')
+    case 'SUBMIT_WATCH':      
       return state.concat(action.photo);
+    case 'CLEAR_DATA':
+      return [];
     default: 
       return state;
   }

@@ -64,15 +64,13 @@ class Add extends Component {
 	}
 
 	handleSubmit () {
-		return {
-		handleSubmit: () => {
-			console.log('dispatch called');
-			dispatch({
-			type: 'SUBMIT_WATCH',
-			photo
-			})
-		}		
-	}
+		return (
+
+				dispatch({
+				type: 'SUBMIT_WATCH',
+				photo
+				})
+		)
 	}
 
 	clearData = async () => {
@@ -110,9 +108,6 @@ class Add extends Component {
 		          		Submit
 		          	</Text>
 		          </TouchableOpacity>
-		          <Button
-		          	title = 'Clear all data'
-		          	onPress={this.clearData} />
 		        </View>		        
 	        </ScrollView>
 	    );
