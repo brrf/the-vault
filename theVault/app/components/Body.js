@@ -14,26 +14,6 @@ export default class Body extends Component {
    
   }
 
-  componentDidMount() {
-    this.getData()
-  }
-
-  getData = async () => {
-    try {
-      let data = await AsyncStorage.getItem('object');
-      let parse = JSON.parse(data);
-
-      this.setState({
-        brands: [...this.state.brands, parse.brand]
-      })
-    }
-
-    catch(error) {
-      alert(error)
-    }
-  }
-
-
   render() {
     return (
         <View style={styles.mainContent}>

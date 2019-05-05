@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, ScrollView, TextInput, TouchableOpacity, Keyboard, DatePickerIOS, Button, ImagePickerIOS} from 'react-native';
-import { loadSettings, saveSettings } from '../storage/settingsStorage';
 import TextInputTemplate from './TextInputTemplate';
 import PurchaseDate from './PurchaseDate';
 import TakePhoto from './TakePhoto';
 import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux';
 
-export default class Add extends Component {
+class Add extends Component {
 
 	constructor(props) {
 		super(props);
@@ -15,13 +15,27 @@ export default class Add extends Component {
 			brand: '',
 			model: '',
 			price: '',
+			photo: ''
 		}
 
 		this.handleBrandChange = this.handleBrandChange.bind(this);
 		this.handleModelChange = this.handleModelChange.bind(this);
-		this.handlePriceChange = this.handlePriceChange.bind(this);
 		this.handlePhoto = this.handlePhoto.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.uploadPhoto = this.uploadPhoto.bind(this);
+	}
+
+	uploadPhoto () {
+		this.props.dispatch({
+			type: 'SUBMIT_WATCH',
+			photo: this.state.photo
+		})
+	}
+
+	uuidv4() {
+	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
 	}
 
 	handleBrandChange(brand) {
@@ -43,17 +57,22 @@ export default class Add extends Component {
 	}
 
 	handlePhoto(photo) {
+		console.log('photo added to local state')
 		this.setState({
 			photo
 		})
 	}
 
 	handleSubmit () {
-		let submission = ({
-			brand: this.state.brand
-		});
-		AsyncStorage.setItem('object', JSON.stringify(submission));
-		this.props.navigation.navigate('Collection')
+		return {
+		handleSubmit: () => {
+			console.log('dispatch called');
+			dispatch({
+			type: 'SUBMIT_WATCH',
+			photo
+			})
+		}		
+	}
 	}
 
 	clearData = async () => {
@@ -62,8 +81,6 @@ export default class Add extends Component {
   } catch(e) {
     // clear error
   }
-
-  console.log('Done.')
 }
 
 	render() {
@@ -87,15 +104,12 @@ export default class Add extends Component {
 		          	uploadPhoto={this.handlePhoto}/>
 		          <TouchableOpacity
 		          	style={styles.saveButton}
-		          	onPress={this.handleSubmit}>
+		          	onPress={this.uploadPhoto}>
 		          	<Text
 		          		style={styles.saveButtonText}>
 		          		Submit
 		          	</Text>
 		          </TouchableOpacity>
-		          <Button
-		          	title='Click to alert'
-		          	onPress={this.getData} />
 		          <Button
 		          	title = 'Clear all data'
 		          	onPress={this.clearData} />
@@ -104,6 +118,8 @@ export default class Add extends Component {
 	    );
  	}
 }
+
+export default connect(null, null)(Add)
 
 const styles = StyleSheet.create({
   inputContainer: {
