@@ -8,6 +8,7 @@ import Collection from './app/components/Collection';
 import Item from './app/components/Item'
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
+import { Icon } from 'react-native-elements'
 
 // handleSubmit () {
 //     let id = this.uuidv4() ;
@@ -48,18 +49,69 @@ export default class App extends Component {
 
 const CollectionStack = createStackNavigator(
   {
-    CollectionPanel: Collection,
+    CollectionPanel: {
+      screen: Collection,
+      navigationOptions: ({ navigation }) => {
+        return {
+          title: 'The Vault',
+          headerStyle: {
+            backgroundColor: '#f4511e'
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: 30
+          }  
+        }
+      }
+    },
     CollectionItem: Item
-  },
+  }
+);
+
+const HomeStack = createStackNavigator(
   {
-    headerMode: 'none'
+    Home: {
+      screen: Home,
+      navigationOptions: ({ navigation }) => {
+        return {
+          title: 'The Vault',
+          headerStyle: {
+            backgroundColor: '#f4511e'
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: 30
+          }  
+        }
+      }
+    }
+  }
+);
+
+const AddStack = createStackNavigator(
+  {
+    Add: {
+      screen: Add,
+      navigationOptions: ({ navigation }) => {
+        return {
+          title: 'The Vault',
+          headerStyle: {
+            backgroundColor: '#f4511e'
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: 30
+          }  
+        }
+      }
+    }
   }
 );
 
 const AppTabNavigator = createBottomTabNavigator(
   {
-    Home: Home,
-    Add: Add,
+    Home: HomeStack,
+    Add: AddStack,
     Collection: CollectionStack
   },
   {
@@ -69,20 +121,15 @@ const AppTabNavigator = createBottomTabNavigator(
 
 const AppStack = createStackNavigator(
   {
-    App: AppTabNavigator
-  },
-  {
-    defaultNavigationOptions: {
-      title: 'The Vault',
-      headerStyle: {
-        backgroundColor: '#f4511e'
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontSize: 30
-      }  
+    App: {
+      screen: AppTabNavigator,
+      navigationOptions: ({ navigation }) => {
+        return {
+          header: null
+        }
+      }
     }
-  } 
+  }
 )
 
 
