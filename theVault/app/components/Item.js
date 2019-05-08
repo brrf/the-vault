@@ -10,7 +10,7 @@ export default class Item extends Component {
           <Image
                     style={{height: 400, width: 400}}
                     source={{uri: this.props.navigation.getParam('pictureURI')}}
-                  />
+          />
           <Text>{this.props.navigation.getParam('title')}</Text>
            
         </View>

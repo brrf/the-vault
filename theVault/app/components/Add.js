@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, ScrollView, TextInput, TouchableOpacity, Keyboard, DatePickerIOS, Button, ImagePickerIOS} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, TextInput, TouchableOpacity, Keyboard, DatePickerIOS, Button, ImagePickerIOS, Image} from 'react-native';
 import TextInputTemplate from './TextInputTemplate';
 import PurchaseDate from './PurchaseDate';
 import TakePhoto from './TakePhoto';
@@ -15,28 +15,27 @@ class Add extends Component {
 			brand: '',
 			model: '',
 			price: '',
-			photo: ''
+			picture: ''
 		}
 
 		this.handleBrandChange = this.handleBrandChange.bind(this);
 		this.handleModelChange = this.handleModelChange.bind(this);
-		this.handlePhoto = this.handlePhoto.bind(this);
 		this.uploadPhoto = this.uploadPhoto.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	uploadPhoto () {
+	handleSubmit () {
+		const {pic, tit} = this.state
 		this.props.dispatch({
 			type: 'SUBMIT_WATCH',
-			photo: this.state.photo,
+			picture: this.state.picture,
+			title: this.state.brand,
 			navigate: () => this.props.navigation.navigate('Collection')
 		})
-	}
-
-	uuidv4() {
-	  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-	    return v.toString(16);
-	  });
+		// this.setState({
+		// 	picture: '',
+		// 	brand: 'Moshe'
+		// })
 	}
 
 	handleBrandChange(brand) {
@@ -51,35 +50,32 @@ class Add extends Component {
 		})
 	}
 
-	handlePriceChange(price) {
+	uploadPhoto(source) {
 		this.setState({
-			price
+			picture: source
 		})
 	}
 
-	handlePhoto(photo) {
-		console.log('photo added to local state')
-		this.setState({
-			photo
-		})
-	}
+	// handlePriceChange(price) {
+	// 	this.setState({
+	// 		price
+	// 	})
+	// }
 
-	handleSubmit () {
-		return (
-				dispatch({
-				type: 'SUBMIT_WATCH',
-				photo
-				})
-		)
-	}
+	// handlePhoto(photo) {
+	// 	console.log('photo added to local state')
+	// 	this.setState({
+	// 		photo
+	// 	})
+	// }
 
-	clearData = async () => {
-  try {
-    await AsyncStorage.clear()
-  } catch(e) {
-    // clear error
-  }
-}
+// 	clearData = async () => {
+//   try {
+//     await AsyncStorage.clear()
+//   } catch(e) {
+//     // clear error
+//   }
+// }
 
 	render() {
 	    return (
@@ -89,20 +85,26 @@ class Add extends Component {
 		          	text="Brand"
 		          	propsFunction={this.handleBrandChange}
 		          />
-		          <TextInputTemplate
-		          	text="Model"
-		          	propsFunction={this.handleModelChange}
-		          />
-		          <TextInputTemplate
-		          	text="Price Paid"
-		          	propsFunction={this.handlePriceChange}
-		          />
-		          <PurchaseDate />
+		      {/*   <TextInputTemplate
+		          // 	text="Model"
+		          // 	propsFunction={this.handleModelChange}
+		          // />
+		          // <TextInputTemplate
+		          // 	text="Price Paid"
+		          // 	propsFunction={this.handlePriceChange}
+		          // />
+		          // <PurchaseDate /> */}
 		          <TakePhoto 
-		          	uploadPhoto={this.handlePhoto}/>
+		          	uploadPhoto={this.uploadPhoto}/>
+		          {this.state.picture === '' 
+		          	? null
+		          	: <Image
+                    style={{height: 200, width: 200}}
+                    source={{uri: this.state.picture}}
+                 	/>}
 		          <TouchableOpacity
 		          	style={styles.saveButton}
-		          	onPress={this.uploadPhoto}>
+		          	onPress={this.handleSubmit}>
 		          	<Text
 		          		style={styles.saveButtonText}>
 		          		Submit

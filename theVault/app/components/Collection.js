@@ -118,7 +118,7 @@ class Collection extends Component {
 	    return (
 	        <View style={styles.mainContent}>
 	        	<FlatList
-	        		data={data}
+	        		data={this.props.watches}
 	        		renderItem={({item}) => (
 	        			<TouchableOpacity
 	        				onPress={() => this.props.navigation.navigate('CollectionItem', {
@@ -143,7 +143,7 @@ class Collection extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		photos: state
+		watches: state
 	}
 }
 
