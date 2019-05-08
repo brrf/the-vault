@@ -121,7 +121,10 @@ class Collection extends Component {
 	        		data={data}
 	        		renderItem={({item}) => (
 	        			<TouchableOpacity
-	        				onPress={() => this.props.navigation.navigate('CollectionItem')}>
+	        				onPress={() => this.props.navigation.navigate('CollectionItem', {
+	        					pictureURI: item.picture,
+	        					title: item.title
+	        				})}>
 		        			<Image
 		        				style={styles.watchImage}
 		        				source={{uri: item.picture}}
