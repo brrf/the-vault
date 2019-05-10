@@ -143,7 +143,7 @@ class Collection extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		watches: state
+		watches: state.watches
 	}
 }
 

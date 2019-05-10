@@ -20,7 +20,10 @@ import { Icon } from 'react-native-elements'
 //     this.props.navigation.navigate('Collection')
 //   }
 
-const initialState = [];
+const initialState = {
+  selectedWatch: null,
+  watches: []
+};
   
 uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -33,11 +36,19 @@ const reducer = (state = initialState, action) => {
   switch(action.type) {
     case 'SUBMIT_WATCH':     
       action.navigate();
-      return state.concat({
+      return {
+        ...state, 
+        watches: state.watches.concat({
           picture: action.picture,
           title: action.title,
           key: uuidv4()
-      });
+        })
+      };
+    case 'SELECT_WATCH':
+      return {
+        ...state,
+          selectedWatch: action.watch
+      }
     case 'CLEAR_DATA':
       return [];
     default: 
